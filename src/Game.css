@@ -1,0 +1,142 @@
+body {
+  font: 14px "Lato", Futura, sans-serif;
+  overflow-x: hidden;
+}
+
+.game-board {
+  /* margin-right: auto; */
+  width: 100%;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  font-size: 22px;
+  color: red;
+  margin: 0;
+  height: 600px;
+  background-color: #333;
+  overflow-y: scroll;
+}
+
+.status button, ol, li{
+  width: 100%;
+  text-align: center;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 32px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 5%;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.square:hover {
+  cursor: pointer;
+  background: #f1e5e4;
+  border: 1px solid #333;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 32px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 5%;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info ol{
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+}
+
+.active {
+  background-color: greenyellow;
+}
+
+.step {
+  float: right;
+  margin-right: 5%;
+}
+
+.step button {
+  margin-right: 5px;
+}
+
+.win {
+  background-color: greenyellow;
+}
+
+.X {
+  color: green;
+}
+
+.O {
+  color: red;
+}
+
+#frmChat {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+.inputChat {
+  position: absolute;
+  width: 85%;
+  bottom: 5%;
+}
+
+#inputText {
+  /* width: 100%; */
+}
+
+#inputIcon {
+  float: right;
+  width: 15%;
+  right: 0%;
+  bottom: 0%;
+  top: 0%;
+  height: 40px;
+}
+
+#chatTitle {
+  color: red;
+}
+
+hr {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+
+#chatBanner {
+  height: 210px;
+}
