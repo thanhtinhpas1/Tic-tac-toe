@@ -55,10 +55,6 @@ class Register extends React.Component {
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control type="text" placeholder="*Username" required />
                                 </Form.Group>
-                                <Form.Group controlId="username">
-                                    <Form.Label>Username</Form.Label>
-                                    <Form.Control type="text" placeholder="*Username" required />
-                                </Form.Group>
                                 <Form.Group controlId="name">
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control type="text" placeholder="*Name" required />
