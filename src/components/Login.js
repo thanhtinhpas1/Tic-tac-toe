@@ -66,12 +66,14 @@ class Login extends React.Component {
         }
 
         const responseGoogle = (response) => {
-            cookies.set('token', response.accessToken)
-            cookies.set('name', response.w3.ig)
-            cookies.set('avatar', response.w3.Paa)
-            this.setState({
-                isAuth: true
-            })
+            if (response.accessToken) {
+                cookies.set('token', response.accessToken)
+                cookies.set('name', response.w3.ig)
+                cookies.set('avatar', response.w3.Paa)
+                this.setState({
+                    isAuth: true
+                })
+            }
         }
 
         return (
