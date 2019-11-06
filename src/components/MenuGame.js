@@ -18,7 +18,7 @@ import { me } from '../actions'
 
 const cookies = new Cookies()
 const io = require('socket.io-client')
-const SOCKET_SERVER = "https://ptudwnc06.herokuapp.com"
+const SOCKET_SERVER = "http://ptudwnc06.herokuapp.com"
 const CLIENT_JOIN = "CLIENT_JOIN"
 const CLIENT_WAIT = "CLIENT_WAIT"
 var socket = undefined;
@@ -43,7 +43,7 @@ class MenuGame extends Component {
     }
 
     normalPlay() {
-        socket = io(SOCKET_SERVER, { transports: ['websocket'] });
+        socket = io(SOCKET_SERVER);
 
         socket.on(CLIENT_JOIN, (rooms) => {
             // WAIT FOR PLAYER 
