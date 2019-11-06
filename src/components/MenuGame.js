@@ -43,7 +43,7 @@ class MenuGame extends Component {
     }
 
     normalPlay() {
-        socket = io(SOCKET_SERVER);
+        socket = io(SOCKET_SERVER, { transports: ['websocket'] });
 
         socket.on(CLIENT_JOIN, (rooms) => {
             // WAIT FOR PLAYER 
