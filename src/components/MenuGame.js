@@ -43,6 +43,7 @@ class MenuGame extends Component {
     }
 
     normalPlay() {
+        io.set('*:*')
         socket = io.connect(SOCKET_SERVER)
 
         socket.on(CLIENT_JOIN, (rooms) => {
