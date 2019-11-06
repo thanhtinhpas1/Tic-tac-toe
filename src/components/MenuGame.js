@@ -43,8 +43,7 @@ class MenuGame extends Component {
     }
 
     normalPlay() {
-        io.set('*:*')
-        socket = io.connect(SOCKET_SERVER)
+        socket = io('https://ttsocket.herokuapp.com', {transports: ['websocket', 'polling', 'flashsocket']});
 
         socket.on(CLIENT_JOIN, (rooms) => {
             // WAIT FOR PLAYER 
