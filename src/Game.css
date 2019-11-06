@@ -23,7 +23,7 @@ body {
   overflow-y: scroll;
 }
 
-.status button, ol, li{
+.status button + ol + li{
   width: 100%;
   text-align: center;
 }

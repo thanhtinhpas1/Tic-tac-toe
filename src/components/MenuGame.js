@@ -1,21 +1,25 @@
 import React, { Component } from 'react'
 import Header from './views/Header'
-import { Image, Card, Button } from 'react-bootstrap'
+import { Image } from 'react-bootstrap'
 
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 // COMPONENT
-import { createStore, applyMiddleware } from "redux";
-
-import rootReducer from "../reducers/";
+import { applyMiddleware, createStore } from 'redux'
+import { connect } from "react-redux";
+import rootReducer from "../reducers";
 import OnlineGame from './OnlineGame'
+import BotGame from './BotGame'
+import Cookies from 'universal-cookie'
 
+import { me } from '../actions'
+
+const cookies = new Cookies()
 const io = require('socket.io-client')
 const SOCKET_SERVER = "http://localhost:8080"
 const CLIENT_JOIN = "CLIENT_JOIN"
-const CLIENT_LEAVE = "CLIENT_LEAVE"
 const CLIENT_WAIT = "CLIENT_WAIT"
 var socket = undefined;
 
@@ -31,8 +35,11 @@ class MenuGame extends Component {
             connect: undefined,
             clientId: undefined,
             room: undefined,
-            yourTurn: false
+            yourTurn: false,
+            botMode: false
         }
+
+        this.props.me(cookies.get('token'))
     }
 
     normalPlay() {
@@ -63,19 +70,25 @@ class MenuGame extends Component {
 
     botPlay() {
         this.setState({
-            isShow: false,
-            loading: true
+            botMode: true
         })
     }
 
     render() {
-        console.log(this.props)
 
-        const { isShow, loading, room } = this.state
+        const { isShow, loading, room, botMode } = this.state
 
+        if (botMode) {
+            // redirect to game with bot
+            return <Router path="/bot">
+                <Provider store={store}>
+                    <BotGame />
+                </Provider>
+            </Router>
+        }
         if (room) {
             // redirect to game online
-            return <Router>
+            return <Router path="/online">
                 <Provider store={store}>
                     <OnlineGame socket={this.state} />
                 </Provider>
@@ -88,7 +101,7 @@ class MenuGame extends Component {
             <div style={{ margin: '0' }}>
                 <Header />
                 <div className="text-center mt-3">
-                    <Image style={{height: '450px', width: '550px'}} src="./banner.png">
+                    <Image style={{ height: '450px', width: '550px' }} src="./banner.png">
                     </Image>
                     <div className={load}>
                         <h3 className="text-white mt-2">Waiting...</h3>
@@ -108,5 +121,10 @@ class MenuGame extends Component {
         )
     }
 }
+const mapStateToProp = state => {
+    return {
+        user: state.user
+    }
+}
 
-export default MenuGame;
+export default withRouter(connect(mapStateToProp, { me })(MenuGame))

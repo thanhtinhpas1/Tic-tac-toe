@@ -1,5 +1,6 @@
 import calculateWinner from "../utils/WinnerUtils";
-import { MOVE, MOVE_STEP, SORT, PLAY_AGAIN, BOT_MOVE } from "../actions";
+import { MOVE, MOVE_STEP, SORT, BOT_MOVE } from "../actions";
+import {PLAY_AGAIN} from '../actions/socketAction'
 
 export const initialState = {
     history: [
@@ -156,6 +157,10 @@ export default function (state = initialState, action) {
             };
         }
 
+        case PLAY_AGAIN: {
+            return initialState
+        }
+
         default: {
             return state;
         }
@@ -163,9 +168,10 @@ export default function (state = initialState, action) {
 }
 
 function getPosition(board) {
-    var random = Math.floor(Math.random() * Math.floor(400));
+    var random = Math.floor(Math.random() * Math.floor(399));
+    console.log(random)
     var start = random;
-    while (board[random] === 'X' || board[random] === 'X') {
+    while (board[random] === 'O' || board[random] === 'X') {
         random = (random + 1) % 400
         if (random === start) {
             return -1

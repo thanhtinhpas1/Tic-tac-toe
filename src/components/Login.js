@@ -6,7 +6,7 @@ import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 import thunk from 'redux-thunk'
 
 // REDUCER & ACTION
-import { login } from "../actions/";
+import { login, me } from "../actions/";
 import rootReducer from "../reducers";
 
 // LOGIN FACEBOOK & GOOGLE
@@ -15,8 +15,10 @@ import GoogleLogin from 'react-google-login'
 
 // COMPONENT
 import Header from '../components/views/Header'
-import Game from "../components/Game";
+import MenuGame from "../components/MenuGame";
+import Cookies from 'universal-cookie';
 
+const cookies = new Cookies()
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // FACEBOOK & GOOGLE 
@@ -43,7 +45,17 @@ class Login extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+
+        const { isAuth, error } = this.props.user;
+
+        if (isAuth || cookies.get('token') !== undefined) {
+            return <Router path="/game">
+                <Provider store={store}>
+                    <MenuGame />
+                </Provider>
+            </Router>
+        }
+
         // LOGIN FACEBOOK & GOOGLE RESPONSE
         const responseFacebook = (response) => {
             this.setState({
@@ -54,18 +66,14 @@ class Login extends React.Component {
         }
 
         const responseGoogle = (response) => {
-            console.log(response)
+            cookies.set('token', response.accessToken)
+            cookies.set('name', response.w3.ig)
+            cookies.set('avatar', response.w3.Paa)
+            this.setState({
+                isAuth: true
+            })
         }
 
-        const { isAuth, error } = this.props.user;
-
-        if (isAuth) {
-            return <Router exact path="/game">
-                <Provider store={store}>
-                    <Game user={this.props.user} />
-                </Provider>
-            </Router>
-        }
         return (
             <Router>
                 <Header />
@@ -134,4 +142,4 @@ const mapStateToProps = state => {
     };
 }
 
-export default withRouter(connect(mapStateToProps, { login })(Login))
+export default withRouter(connect(mapStateToProps, { login, me })(Login))

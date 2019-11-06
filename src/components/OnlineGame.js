@@ -7,6 +7,7 @@ import {
     clientPlay, initPlay, otherPlay, clientChat, playAgain, clientUndo, clientResUndo, clientAskPeace, clientResPeace,
     clientSurrender, CLIENT_PLAY, CLIENT_CHAT, CLIENT_UNDO, CLIENT_RES_UNDO, CLIENT_SURRENDER, CLIENT_ASK_PEACE, CLIENT_RES_PEACE
 } from '../actions/socketAction'
+import { me } from '../actions/index'
 import Board from "./Board";
 
 // COMPONENT
@@ -14,6 +15,8 @@ import Header from './views/Header'
 
 import { Card, Button, Form } from "react-bootstrap";
 import MenuGame from "./MenuGame";
+import Cookies from "universal-cookie";
+const cookies = new Cookies()
 
 class Game extends React.Component {
     constructor(props) {
@@ -26,6 +29,8 @@ class Game extends React.Component {
             waitPeace: false,
             acceptSurrender: false
         }
+
+        this.props.me(cookies.get('token'))
 
         const { clientId, connect, yourTurn } = this.props.socket
 
@@ -105,6 +110,8 @@ class Game extends React.Component {
     chatSubmit(e) {
         e.preventDefault();
         var msg = e.currentTarget[0].value
+        const { name } = this.props.user
+        msg = name + ": " + msg
         this.props.clientChat(msg, false)
     }
 
@@ -190,7 +197,7 @@ class Game extends React.Component {
             }
             else if (isUndoRes === false) {
                 title = "Other play is rejected. But don't give up!"
-                imgBanner = "https://gph.is/g/a9Wk06J"
+                imgBanner = "./try.gif"
             }
         }
         // END SET LOADING
@@ -206,8 +213,11 @@ class Game extends React.Component {
 
         // setup chat messages
         var msg = messages.map((message, index) => {
+            var chat = message.split(":")
+            var name = chat[0]
+            var msgg = chat[1]
             return <li key={index}>
-                {message}
+                <b>{name}: </b>{msgg}
             </li>
         })
 
@@ -248,7 +258,7 @@ class Game extends React.Component {
 
         return (
             <div>
-                <Header store={this.props.user}>
+                <Header>
                 </Header>
                 <div style={{ marginTop: '10px' }}>
                     <Card className={showWin} style={{ position: 'fixed', top: '40%', left: '37%', zIndex: '999', width: '30%' }}>
@@ -331,7 +341,7 @@ class Game extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         );
     }
 }
@@ -346,5 +356,5 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
     playAgain, clientPlay, initPlay, otherPlay, clientChat, clientUndo, clientSurrender,
-    clientResUndo, clientAskPeace, clientResPeace
+    clientResUndo, clientAskPeace, clientResPeace, me
 })(Game);

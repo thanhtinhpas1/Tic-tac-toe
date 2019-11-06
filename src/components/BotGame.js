@@ -1,18 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
+import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 
 // REDUCER & ACTION
-import { move, moveStep, sort, me, botMove } from "../actions";
+import { move, moveStep, sort, me, botMove, playAgain } from "../actions";
 import Board from "./Board";
 
 // COMPONENT
 import Header from '../components/views/Header'
 import { Card, Button } from "react-bootstrap";
+import MenuGame from "./MenuGame";
 
 class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            playAgain: false
         }
     };
 
@@ -40,11 +43,27 @@ class Game extends React.Component {
         this.props.sort();
     }
 
-    render() {
+    playAgain() {
+        this.props.playAgain();
+        this.setState({
+            playAgain: true
+        })
+    }
 
+    render() {
         const {
             history, stepNumber, status, squaresWin, sortIncrease, isActive, isWin, yourTurn
         } = this.props.game;
+
+        const { playAgain } = this.state
+        if (playAgain) {
+            if (playAgain) {
+                // redirect to menu
+                return <Router path="/menu">
+                    <MenuGame />
+                </Router>
+            }
+        }
 
         const current = history[stepNumber];
         let desc;
@@ -96,12 +115,12 @@ class Game extends React.Component {
 
         return (
             <div>
-                <Header store={this.props.user}>
+                <Header>
                 </Header>
                 <div className="game" style={{ marginTop: '10px' }}>
                     <div className="game-info col-3 text-center">
                         <div className="status">
-                            <button className="btn btn-success" type="button" onClick={() => this.sort()}>
+                            <button className="btn btn-success" style={{width: '100%'}} type="button" onClick={() => this.sort()}>
                                 Sort
                             </button>
                             <ol>{moves}</ol>
@@ -123,6 +142,7 @@ class Game extends React.Component {
                                 <Card.Title style={{ color: 'red' }}>{title}</Card.Title>
                                 <Card.Title style={{ color: 'green' }}>{descript}</Card.Title>
                                 <Button className="btn btn-danger mt-5" style={{ width: '100%' }} onClick={() => this.jumpTo(0)}>Play Again</Button>
+                                <Button className="btn btn-primary mt-2" style={{ width: '100%' }} onClick={() => this.playAgain()}>Back to menu</Button>
                             </Card.Body>
                         </Card>
                     </div>
@@ -135,8 +155,8 @@ class Game extends React.Component {
 const mapStateToProps = state => {
     return {
         game: state.game,
-        user: state.user
+        user: state.user,
     }
 }
 
-export default connect(mapStateToProps, { move, moveStep, sort, botMove, me })(Game);
+export default withRouter(connect(mapStateToProps, { move, moveStep, sort, botMove, me, playAgain })(Game));

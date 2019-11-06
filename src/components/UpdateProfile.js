@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Container, Card, Form, Button } from 'react-bootstrap'
+import { createStore, applyMiddleware } from "redux";
 import Header from './views/Header'
 import { me, updateProfile } from '../actions'
-import { connect } from 'react-redux'
+import { connect, Provider } from 'react-redux'
+import rootReducer from "../reducers";
+import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
 
 // IMPORT COOKIES
 import Cookies from 'universal-cookie'
+import MenuGame from './MenuGame';
+const loggerMiddleware = createLogger()
 const cookies = new Cookies()
+const store = createStore(rootReducer, applyMiddleware(thunk, loggerMiddleware));
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -39,14 +46,19 @@ class UpdateProfile extends Component {
         }
 
         // check
-        const { isUpdated } = this.props.game
+        const { isUpdated } = this.props.user
         if (isUpdated) {
             alert("Update success!")
+            return <Router path="/game">
+                <Provider store={store}>
+                    <MenuGame />
+                </Provider>
+            </Router>
         }
 
         return (
             <Router>
-                <Header store={this.props.user} />
+                <Header />
                 <Container>
                     <Card className="mt-5" style={{ width: '30rem', margin: 'auto' }}>
                         <Card.Header as="h3" className="text-center">

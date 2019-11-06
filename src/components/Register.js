@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Container, Form, Button } from 'react-bootstrap'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, withRouter } from 'react-router-dom'
 import { Provider, connect } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk'
@@ -28,6 +28,7 @@ class Register extends React.Component {
         user.email = e.currentTarget[3].value;
 
         this.props.register(user)
+        this.props.history.push('/login')
     }
 
     render() {
@@ -50,6 +51,10 @@ class Register extends React.Component {
                     </Card.Header>
                         <Card.Body>
                             <Form onSubmit={e => this.handleSubmit(e)}>
+                                <Form.Group controlId="username">
+                                    <Form.Label>Username</Form.Label>
+                                    <Form.Control type="text" placeholder="*Username" required />
+                                </Form.Group>
                                 <Form.Group controlId="username">
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control type="text" placeholder="*Username" required />
@@ -88,4 +93,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { register })(Register)
+export default withRouter(connect(mapStateToProps, { register })(Register))

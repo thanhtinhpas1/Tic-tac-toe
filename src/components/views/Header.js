@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import { Navbar, NavDropdown, Image } from 'react-bootstrap'
 import Cookies from 'universal-cookie'
+import { connect } from 'react-redux'
+import { me } from '../../actions/index'
+
 const cookies = new Cookies()
 
 class Header extends Component {
@@ -9,6 +12,7 @@ class Header extends Component {
     constructor(props) {
         super(props)
         this.state = {
+
         }
     }
 
@@ -17,9 +21,14 @@ class Header extends Component {
     }
 
     render() {
-        var userInfo;
-        if (this.props.store) {
-            const { name, avatar } = this.props.store
+        var token = cookies.get('token')
+        var name = cookies.get('name')
+        var avatar = cookies.get('avatar')
+        if (avatar === undefined) {
+            avatar = './banner.png'
+        }
+        var userInfo = undefined
+        if (token) {
             userInfo = (
                 <div id="brand">
                     <Image id="avatar" src={avatar} />
@@ -35,6 +44,7 @@ class Header extends Component {
                 <></>
             )
         }
+
 
         return (
             <>
@@ -57,4 +67,10 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProp = state => {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProp, { me })(Header);

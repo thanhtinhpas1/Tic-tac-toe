@@ -16,9 +16,6 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import UpdateProfile from "./components/UpdateProfile";
 import { createLogger } from 'redux-logger'
-import MenuGame from "./components/MenuGame";
-import OnlineGame from "./components/OnlineGame";
-import BotGame from "./components/BotGame";
 
 const loggerMiddleware = createLogger()
 
@@ -45,7 +42,7 @@ ReactDOM.render(
             </Router>
             <Router path="/">
                 <Provider store={store}>
-                    <BotGame />
+                    <Home />
                 </Provider>
             </Router>
         </Switch>

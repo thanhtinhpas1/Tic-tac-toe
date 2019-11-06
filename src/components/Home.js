@@ -5,12 +5,12 @@ import { Provider } from "react-redux";
 import thunk from 'redux-thunk'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createStore, applyMiddleware } from "redux";
-import rootReducer from "../reducers";
+import rootReducer from "../reducers/OnlineGame";
 import { createLogger } from 'redux-logger'
 
 // IMPORT COOKIE CHECK LOGIN
 import Cookies from 'universal-cookie'
-import Game from './Game';
+import MenuGame from './MenuGame';
 
 const loggerMiddleware = createLogger()
 const cookies = new Cookies()
@@ -21,7 +21,7 @@ class Home extends React.Component {
         if (cookies.get('token')) {
             return <Router exact path="/game">
                 <Provider store={store}>
-                    <Game />
+                    <MenuGame />
                 </Provider>
             </Router>
         }

@@ -17,6 +17,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case LOGIN: {
             var res = action.payload;
+            console.log(res)
             if (res.code === 200) {
                 cookies.set('token', res.token)
                 return {
@@ -27,8 +28,9 @@ export default function (state = initialState, action) {
             }
             else {
                 return {
-                    ...res.message,
-                    isAuth: false
+                    ...state,
+                    isAuth: false,
+                    error: res.message
                 }
             }
         }
@@ -46,7 +48,10 @@ export default function (state = initialState, action) {
 
         case ME: {
             var me = action.payload
+            console.log(me)
             if (me.code === 200) {
+                cookies.set('name', me.message.name)
+                cookies.set('avatar', me.message.avatar)
                 return {
                     ...state,
                     ...me.message,

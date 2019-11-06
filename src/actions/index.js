@@ -1,3 +1,5 @@
+import { PLAY_AGAIN } from "./socketAction"
+
 export const LOGIN = "LOGIN"
 export const REGISTER = "REGISTER"
 export const ME = "ME"
@@ -21,7 +23,7 @@ export const move = (i) => ({
 export const botMove = () => ({
     type: BOT_MOVE,
     payload: {
-        
+
     }
 })
 
@@ -146,3 +148,7 @@ export const updateProfile = (user, token) => {
         })
     })
 }
+
+export const playAgain = () => ({
+    type: PLAY_AGAIN
+})
