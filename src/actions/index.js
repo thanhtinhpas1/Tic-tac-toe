@@ -10,8 +10,8 @@ export const MOVE_STEP = "MOVE_STEP"
 export const SORT = "SORT"
 export const BOT_MOVE = "BOT_MOVE"
 
-const HOST = "http://localhost:3001"
-// const HOST = "http://ptudwnc06.herokuapp.com"
+// const HOST = "http://localhost:3001"
+const HOST = "http://ptudwnc06.herokuapp.com"
 
 export const move = (i) => ({
     type: MOVE,
