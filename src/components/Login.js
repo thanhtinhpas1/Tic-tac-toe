@@ -58,6 +58,7 @@ class Login extends React.Component {
 
         // LOGIN FACEBOOK & GOOGLE RESPONSE
         const responseFacebook = (response) => {
+            console.log(response)
             this.setState({
                 ...response,
                 username: response.name,
@@ -66,7 +67,8 @@ class Login extends React.Component {
         }
 
         const responseGoogle = (response) => {
-            if (response.accessToken) {
+            console.log(response)
+            if (response) {
                 cookies.set('token', response.accessToken)
                 cookies.set('name', response.w3.ig)
                 cookies.set('avatar', response.w3.Paa)
